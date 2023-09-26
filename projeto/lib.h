@@ -9,11 +9,15 @@ typedef struct {
     char categoria[100];
     char descricao[300];
 } Tarefa;
+typedef struct {
+    Tarefa tarefas[100];
+    int qtd;
+} ListaTarefas;
 void imprimeMenu();
-void criaTarefa(Tarefa *t);
+void criaTarefa(ListaTarefas *lt);
 void cadastraTarefa(Tarefa *t, char *arquivo);
 void deletaTarefa(int indice, char *arquivo);
-void listaTarefas(char *arquivo);
+void listaTarefas(ListaTarefas *lt);
 Tarefa *leBinario(char *arquivo, int tamanho);
 int tamanhoArquivo(char *arquivo);
 int validaInputUsuario(int input, int min, int max, int retorno);
