@@ -16,7 +16,7 @@ typedef struct {
 void imprimeMenu();
 void criaTarefa(ListaTarefas *lt);
 void cadastraTarefa(Tarefa *t, char *arquivo);
-void deletaTarefa(ListaTarefas *lt);
+void deletaTarefa(ListaTarefas *lt, int indice);
 void listaTarefas(ListaTarefas *lt);
 Tarefa *leBinario(char *arquivo, int tamanho);
 int tamanhoArquivo(char *arquivo);
