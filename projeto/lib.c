@@ -24,9 +24,10 @@ void imprimeMenu() {
 
 /*
  * Funcao que recebe os inputs do usuario com as informacos da tarefa a ser cadastrada e atribui a uma struct Tarefa.*/
-void criaTarefa(Tarefa *t) {
+void criaTarefa(ListaTarefas *lt) {
     char desc[300], categ[100];
     int input, retornoScan;
+    Tarefa *t = &lt->tarefas[lt->qtd];
 
     printf("Digite a prioridade da tarefa (0 a 10): ");
     do {
@@ -37,14 +38,16 @@ void criaTarefa(Tarefa *t) {
 
     printf("\nDigite a categoria a qual esta tarefa pertence: ");
     fgetc(stdin); //limpa o buffer do teclado
-    scanf("%[^\n]", &categ);
+    scanf("%[^\n]", categ);
     strcpy(t->categoria, categ);
 
     printf("\nDigite uma breve descricao desta tarefa: ");
     fgetc(stdin); //limpa o buffer do teclado
-    scanf("%[^\n]", &desc);
+    scanf("%[^\n]", desc);
     strcpy(t->descricao, desc);
     printf("\n");
+
+    lt->qtd++;
 }
 
 /*Funcao responsavel por gravar a tarefa no arquivo binario.
@@ -103,13 +106,11 @@ int tamanhoArquivo(char *arquivo) {
 }
 
 /*Funcao que lista todas as tarefas gravadas no arquivo binario*/
-void listaTarefas(char *arquivo) {
-    int tamanho = tamanhoArquivo(arquivo);
-    Tarefa *tarefas = leBinario(arquivo, tamanho);
+void listaTarefas(ListaTarefas *lt) {
 
-    for (int i = 0; i < tamanho; i++) {
+    for (int i = 0; i < lt->qtd; i++) {
         printf("Tarefa [%d]:\n", (i + 1));
-        printf("\tprioridade: %d\n\tcategoria: %s\n\tdescricao: %s\n\n", (tarefas + i)->prioridade, (tarefas + i)->categoria, (tarefas + i)->descricao);
+        printf("\tprioridade: %d\n\tcategoria: %s\n\tdescricao: %s\n\n", lt->tarefas[i].prioridade, lt->tarefas[i].categoria, lt->tarefas[i].descricao);
     }
 }
 
