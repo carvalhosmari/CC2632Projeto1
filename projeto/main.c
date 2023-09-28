@@ -51,7 +51,29 @@ int main() {
                 system("pause");
             }
         } else if (input == 3) {
-            //deleta
+            if (lista.qtd == 0) {
+                printf("Nenhuma tarefa cadastrada no momento!\n");
+                system("pause");
+            } else {
+                while (lista.qtd != 0) {
+                    printf("Digite o numero da tarefa que voce gostaria de deletar: ");
+                    do {
+                        fgetc(stdin); //limpa o buffer do teclado
+                        retornoScan = scanf("%d", &input);
+                    } while ((validaInputUsuario(input, 1, qtdTarefas, retornoScan) != 1));
+                    deletaTarefa(&lista, input);
+
+                    printf("Gostaria de deletar outra tarefa? Digite:\n1 - SIM\n2 - NAO\n");
+                    do {
+                        fgetc(stdin); //limpa o buffer do teclado
+                        retornoScan = scanf("%d", &input);
+                    } while ((validaInputUsuario(input, 1, 2, retornoScan) != 1));
+
+                    if (input == 2) {
+                        break;
+                    }
+                }
+            }
         }
 
 //        switch (input) {
