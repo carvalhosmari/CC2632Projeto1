@@ -15,11 +15,10 @@ typedef struct {
 } ListaTarefas;
 void imprimeMenu();
 void criaTarefa(ListaTarefas *lt);
-void cadastraTarefa(Tarefa *t, char *arquivo);
+void cadastraTarefa(ListaTarefas *lt, char *arquivo);
 void deletaTarefa(ListaTarefas *lt, int indice);
 void listaTarefas(ListaTarefas *lt);
-Tarefa *leBinario(char *arquivo, int tamanho);
-int tamanhoArquivo(char *arquivo);
+int carregaTarefas(ListaTarefas *lt, char *arquivo);
 int validaInputUsuario(int input, int min, int max, int retorno);
 void erroArquivo();
 #endif //PROJETO_LIB_H

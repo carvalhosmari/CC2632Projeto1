@@ -52,57 +52,16 @@ void criaTarefa(ListaTarefas *lt) {
 
 /*Funcao responsavel por gravar a tarefa no arquivo binario.
  * Recebe uma struct do tipo Tarefa como parametro e o nome do arquivo na qual sera gravada*/
-void cadastraTarefa(Tarefa *t, char *arquivo){
-    FILE *f = fopen(arquivo, "ab");
+void cadastraTarefa(ListaTarefas *lt, char *arquivo){
+    FILE *f = fopen(arquivo, "wb");
 
     if (f == NULL) {
         erroArquivo();
         }
 
-    fwrite(t, sizeof (Tarefa), 1, f);
+    fwrite(lt, sizeof (ListaTarefas), 1, f);
 
     fclose(f);
-}
-
-/*Funcao que faz a leitura do arquivo binario onde as tarefaz estao armazenadas.
- *Retorna o ponteiro da primeira tarefa*/
-Tarefa *leBinario(char *arquivo, int tamanho) {
-    Tarefa *pont = (Tarefa *) malloc(tamanho * sizeof (Tarefa));
-    FILE *f = fopen(arquivo, "rb");
-
-    if (f == NULL) {
-        erroArquivo();
-    }
-
-    fread(pont, sizeof(Tarefa), tamanho, f);
-
-    fclose(f);
-
-    return pont;
-}
-
-/*Funcao que retorna o numero de registros gravados no arquivo binario.*/
-int tamanhoArquivo(char *arquivo) {
-    int tamanho;
-    size_t fSize;
-    FILE *f = fopen(arquivo, "ab");
-
-    if (f == NULL) {
-        erroArquivo();
-    }
-
-    //funcao que joga o ponteiro para o fim do arquivo
-    fseek(f, 0L, SEEK_END);
-
-    //funcao que diz o tamanho do arquivo em bytes
-    fSize = ftell(f);
-
-    //dividindo o tamanho do arquivo pelo tamanho de uma estrutura do tipo Tarefa, temos o numero de registros
-    tamanho = fSize/sizeof (Tarefa);
-
-    fclose(f);
-
-    return tamanho;
 }
 
 /*Funcao que lista todas as tarefas gravadas no arquivo binario*/
@@ -119,14 +78,7 @@ void listaTarefas(ListaTarefas *lt) {
  * Uma vez encontrada, a tarefa a ser apagada recebe os dados da tarefa subssequente e assim por diante, ate o fim do arquivo
  * O arquivo é subscrito com o array de tarefas atualizado*/
 void deletaTarefa(ListaTarefas *lt, int indice) {
-//    int tamanho = tamanhoArquivo(arquivo);
-//    Tarefa *tarefas = leBinario(arquivo, tamanho);
     int indiceReal = indice - 1;
-//    FILE *f = fopen(arquivo, "wb");
-//
-//    if (f == NULL) {
-//        erroArquivo();
-//    }
 
     for (int i = 0; i < lt->qtd; i++) {
         if (indiceReal <= i) {
@@ -135,10 +87,6 @@ void deletaTarefa(ListaTarefas *lt, int indice) {
     }
 
     lt->qtd--;
-
-//    fwrite(tarefas, sizeof(Tarefa), (tamanho - 1), f);
-//
-//    fclose(f);
 }
 
 /*Funcao utilizada para validar os inputs numericos coletados durante a execucao do programa
@@ -164,5 +112,19 @@ void erroArquivo() {
         retornoScan = scanf("%d", &input);
     } while ((validaInputUsuario(input, 0, 0, retornoScan) != 1));
     exit(0);
+}
+
+int carregaTarefas(ListaTarefas *lt, char *arquivo) {
+    FILE *f = fopen(arquivo, "rb");
+
+    if (f == NULL) {
+        return 1;
+    }
+
+    fread(lt, sizeof(ListaTarefas), 1, f);
+
+    fclose(f);
+
+    return 0;
 }
 
