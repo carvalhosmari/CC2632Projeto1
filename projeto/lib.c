@@ -27,27 +27,26 @@ void imprimeMenu() {
 void criaTarefa(ListaTarefas *lt) {
     char desc[300], categ[100];
     int input, retornoScan;
-    Tarefa t;
+    Tarefa *t = &lt->tarefas[lt->qtd];
 
     printf("Digite a prioridade da tarefa (0 a 10): ");
     do {
         fgetc(stdin); //limpa o buffer do teclado
         retornoScan = scanf("%d", &input);
     } while ((validaInputUsuario(input, 0, 10, retornoScan) != 1));
-    t.prioridade = input;
+    t->prioridade = input;
 
     printf("\nDigite a categoria a qual esta tarefa pertence: ");
     fgetc(stdin); //limpa o buffer do teclado
-    scanf("%[^\n]", &categ);
-    strcpy(t.categoria, categ);
+    scanf("%[^\n]", categ);
+    strcpy(t->categoria, categ);
 
     printf("\nDigite uma breve descricao desta tarefa: ");
     fgetc(stdin); //limpa o buffer do teclado
-    scanf("%[^\n]", &desc);
-    strcpy(t.descricao, desc);
+    scanf("%[^\n]", desc);
+    strcpy(t->descricao, desc);
     printf("\n");
 
-    lt->tarefas[lt->qtd] = t;
     lt->qtd++;
 }
 
