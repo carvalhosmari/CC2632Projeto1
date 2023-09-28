@@ -118,25 +118,27 @@ void listaTarefas(ListaTarefas *lt) {
  * O ID e utilizado como um indice (i + 1) a partir do qual sera feita a varredura no array de tarefas em busca da qual devera ser deletada
  * Uma vez encontrada, a tarefa a ser apagada recebe os dados da tarefa subssequente e assim por diante, ate o fim do arquivo
  * O arquivo é subscrito com o array de tarefas atualizado*/
-void deletaTarefa(int indice, char *arquivo) {
-    int tamanho = tamanhoArquivo(arquivo);
-    Tarefa *tarefas = leBinario(arquivo, tamanho);
+void deletaTarefa(ListaTarefas *lt, int indice) {
+//    int tamanho = tamanhoArquivo(arquivo);
+//    Tarefa *tarefas = leBinario(arquivo, tamanho);
     int indiceReal = indice - 1;
-    FILE *f = fopen(arquivo, "wb");
+//    FILE *f = fopen(arquivo, "wb");
+//
+//    if (f == NULL) {
+//        erroArquivo();
+//    }
 
-    if (f == NULL) {
-        erroArquivo();
-    }
-
-    for (int i = 0; i < tamanho; i++) {
+    for (int i = 0; i < lt->qtd; i++) {
         if (indiceReal <= i) {
-            tarefas[i] = tarefas[(i + 1)];
+            lt->tarefas[i] = lt->tarefas[(i + 1)];
         }
     }
 
-    fwrite(tarefas, sizeof(Tarefa), (tamanho - 1), f);
+    lt->qtd--;
 
-    fclose(f);
+//    fwrite(tarefas, sizeof(Tarefa), (tamanho - 1), f);
+//
+//    fclose(f);
 }
 
 /*Funcao utilizada para validar os inputs numericos coletados durante a execucao do programa
